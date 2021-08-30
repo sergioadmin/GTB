@@ -36,7 +36,7 @@ map.on('load', () => {
 	map.on('click', 'terhromad-419j0y', (e) => {
 	new mapboxgl.Popup()
 		.setLngLat(e.lngLat)
-		.setHTML(e.features[0].properties.ADMIN_3+' ТГ'+'\n'+e.features[0].properties.ADMIN_2)
+		.setHTML(e.features[0].properties.ADMIN_3+' ТГ. '+'/n'+e.features[0].properties.ADMIN_2)
 		.addTo(map);
 	});
 
