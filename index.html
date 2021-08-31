@@ -114,6 +114,7 @@ map.on('load', () => {
 	map.on('mouseleave', 'terhromad-419j0y', () => {
 		map.getCanvas().style.cursor = '';
 	});
+	buildLocationList(stores);
 });
 
 	const stores = {
@@ -392,10 +393,8 @@ function buildLocationList({ features }) {
     }
   }
 }
-	
-	
-buildLocationList(stores);
-	
+
+
 .listings {
   height: 100%;
   overflow: auto;
