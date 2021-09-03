@@ -154,29 +154,27 @@ if (typeof googleApiKey !== 'undefined' && googleApiKey) {
                     )
                   } else {
                     
-                    // Fetch another polygons sheet
-                    $.getJSON(apiUrl + spreadsheetId + '/values/' + ForTGSheets.shift() + '?key=' + googleApiKey, function(data) {
-                      createForTGSettings( parse([data]) )
-                      fetchForTGSheet(polygonSheets)
-                    })
+                      // Fetch another polygons sheet
+                      $.getJSON(apiUrl + spreadsheetId + '/values/' + ForTGSheets.shift() + '?key=' + googleApiKey, function(data) {
+                        createForTGSettings( parse([data]) )
+                        fetchForTGSheet(polygonSheets)
+                      })
 
-                  }
+                    }
 
                 }
 
                 // Start recursive function
                 fetchForTGSheet( ForTGSheets )
 
-              })
+              }
               
             }
-          )
-
          } else {
           alert('You load data from a Google Sheet, you need to add a free Google API key')
          }
 
-       };
+//       };
 	//-------------------------------
 	
 </script>
