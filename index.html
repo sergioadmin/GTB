@@ -109,73 +109,7 @@ map.on('load', () => {
 		map.getCanvas().style.cursor = '';
 	});
 });
-	//-------------------------------
-	// paste in your published Google Sheets URL from the browser address bar
-var googleDocURL = 'https://docs.google.com/spreadsheets/d/1wcd6lK5EQpN_2C-7PxG0OzFK01NxjVLKnsAEB5W9pmo/edit?usp=sharing';
 
-// insert your own Google Sheets API key from https://console.developers.google.com
-var googleApiKey = 'AIzaSyBFMg8NcX3nbcTYIlpz7YY-nbBXdFd9IUg';
-	
-if (typeof googleApiKey !== 'undefined' && googleApiKey) {
-
-          var parse = function(res) {
-            return Papa.parse(Papa.unparse(res[0].values), {header: true} ).data;
-          }
-
-          var apiUrl = 'https://sheets.googleapis.com/v4/spreadsheets/'
-          var spreadsheetId = googleDocURL.indexOf('/d/') > 0
-            ? googleDocURL.split('/d/')[1].split('/')[0]
-            : googleDocURL
-
-          $.getJSON(
-            apiUrl + spreadsheetId + '?key=' + googleApiKey
-          ).then(function(data) {
-              var sheets = data.sheets.map(function(o) { return o.properties.title })
-
-              if (sheets.length === 0 || !sheets.includes('Options')) {
-                'Could not load data from the Google Sheet'
-              }
-
-              // First, read 3 sheets: Options, Points, and Polylines
-              $.when(
-                $.getJSON(apiUrl + spreadsheetId + '/values/ForTG?key=' + googleApiKey)
-              ).done(function(ForTG) {
-
-                // Which sheet names contain polygon data?
-                var ForTGSheets = sheets.filter(function(name) { return name.indexOf('ForTG') === 0})
-
-                // Define a recursive function to fetch data from a polygon sheet
-                var fetchForTGSheet = function(ForTGSheets) {
-
-                  // Load map once all polygon sheets have been loaded (if any)
-                  if (ForTGSheets.length === 0) {
-                    onMapDataLoad(
-                      parse(ForTG)
-                    )
-                  } else {
-                    
-                      // Fetch another polygons sheet
-                      $.getJSON(apiUrl + spreadsheetId + '/values/' + ForTGSheets.shift() + '?key=' + googleApiKey, function(data) {
-                        createForTGSettings( parse([data]) )
-                        fetchForTGSheet(polygonSheets)
-                      })
-
-                    }
-
-                }
-
-                // Start recursive function
-                fetchForTGSheet( ForTGSheets )
-
-              }
-              
-            }
-         } else {
-          alert('You load data from a Google Sheet, you need to add a free Google API key')
-         }
-
-//       };
-	//-------------------------------
 	
 </script>
 
