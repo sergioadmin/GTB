@@ -204,24 +204,24 @@
 //     });
 // });
 
-// map.on('load', () => {
-//   map.addSource('don_tg', {
-//     type: 'geojson',
-//     // Use a URL for the value for the `data` property.
-//     //data: 'https://sergioadmin.github.io/GTB/TG_Don-1.geojson'
-//     data: 'TG_Don-1.geojson'
-// 	  //https://github.com/sergioadmin/GTB/blob/sergioadmin-patch-1/TG_Don-1.geojson
-//   });
+map.on('load', () => {
+  map.addSource('don_tg', {
+    type: 'geojson',
+    // Use a URL for the value for the `data` property.
+    //data: 'https://sergioadmin.github.io/GTB/TG_Don-1.geojson'
+    data: 'TG_Don-1.geojson'
+	  //https://github.com/sergioadmin/GTB/blob/sergioadmin-patch-1/TG_Don-1.geojson
+  });
  
-//   map.addLayer({
-//     'id': 'don_tg-layer',
-//     'type': 'line',
-//     'source': 'don_tg',
-//      'paint': {
-//         'line-color': '#000',
-//         'line-width': 3
-//       }
-//   });
+  map.addLayer({
+    'id': 'don_tg-layer',
+    'type': 'line',
+    'source': 'don_tg',
+     'paint': {
+        'line-color': '#000',
+        'line-width': 3
+      }
+  });
 
 // const features = map.queryRenderFeatures({ laywers: ['don_tg-layer'] });
 
