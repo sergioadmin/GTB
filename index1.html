@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Display a map on a webpage</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    color: #404040;
+    font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1 {
+    font-size: 22px;
+    margin: 0;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 20px 2px;
+  }
+
+  a {
+    color: #404040;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #101010;
+  }
+
+  /* The page is split between map and sidebar - the sidebar gets 1/3, map
+  gets 2/3 of the page. You can adjust this to your personal liking. */
+  .sidebar {
+    position: absolute;
+    width: 33.3333%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  .map {
+    position: absolute;
+    left: 33.3333%;
+    width: 66.6666%;
+    top: 0;
+    bottom: 0;
+  }
+
+  .heading {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
+  }
+</style>
+	<div class='sidebar'>
+  <div class='heading'>
+    <h1>Our locations</h1>
+  </div>
+  <div id='listings' class='listings'></div>
+</div>
+<div id="map"></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZ2lvYWRtMzIxIiwiYSI6ImNrcWo3MjYxajA4dmkzMG54dHQ3eHM1ancifQ.7aDWVU3oOhZJcbXNur8wYw';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/sergioadm321/ckrm0iabcarh517qy074a8gxn', // style URL
+	//style: 'mapbox://styles/mapbox/light-v10',	    
+        center: [37.6, 48.5], // starting position [lng, lat]
+        zoom: 7 // starting zoom
+    });
+
+map.on('load', () => {
+	// When a click event occurs on a feature in the states layer,
+	// open a popup at the location of the click, with description
+	// HTML from the click event's properties.
+	map.on('click', 'terhromad-419j0y', (e) => {
+		//map.setFilter('terhromad-419j0y', ["==", 'ADMIN_3', name]);
+	new mapboxgl.Popup()
+		.setLngLat(e.lngLat)
+		.setHTML(e.features[0].properties.ADMIN_3+' ТГ, <br>'+e.features[0].properties.ADMIN_2)
+		.addTo(map);
+	});
+
+	// Change the cursor to a pointer when
+	// the mouse is over the states layer.
+	map.on('mouseenter', 'terhromad-419j0y', () => {
+		map.getCanvas().style.cursor = 'pointer';
+	});
+
+	// Change the cursor back to a pointer
+	// when it leaves the states layer.
+	map.on('mouseleave', 'terhromad-419j0y', () => {
+		map.getCanvas().style.cursor = '';
+	});
+});
+
+	
+</script>
+
+</body>
+</html>
