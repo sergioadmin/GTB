@@ -30,6 +30,8 @@
 
     <script src="https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js"></script>
 
+    <script src="./data-2.js"></script>
+
     <style>
       .scrollable-menu {
         height: auto;
@@ -52,7 +54,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a class="nav-link active" id="link-14" aria-current="page" href="#"
                 >Донецька область</a
               >
             </li>
@@ -200,7 +202,8 @@
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" id="link-302" href="#"
+                  <a class="dropdown-item" 
+                  id="link-302" href="#"
                     >Дружківська територіальна громада
                     <span class="badge bg-info text-dark">4</span></a
                   >
@@ -407,10 +410,46 @@
 
     <script>
 
-            mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZ2lvYWRtMzIxIiwiYSI6ImNrcWo3MjYxajA4dmkzMG54dHQ3eHM1ancifQ.7aDWVU3oOhZJcbXNur8wYw';
+      mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZ2lvYWRtMzIxIiwiYSI6ImNrcWo3MjYxajA4dmkzMG54dHQ3eHM1ancifQ.7aDWVU3oOhZJcbXNur8wYw';
       
-      const my_geojson = $.getJSON("https://sergioadmin.github.io/GTB/TG_Don-2-polygons.geojson");
-      const mydata = my_geojson.responseJSON;
+      // var my_geojson = $.getJSON("https://sergioadmin.github.io/GTB/TG_Don-2-polygons.geojson");
+      console.log(my_geojson);
+
+
+      // var result = $.ajax({
+      //   type: 'GET',
+      //   dataType: 'json',
+      //   url: "https://sergioadmin.github.io/GTB/TG_Don-2-polygons.geojson",
+      //   success: function(obj) {
+      //       console.log('Stop-1'+obj);
+
+    // for(i=302;i<313;i++) {
+    //   name_id = 'link-'+String(i); 
+    //   link = document.getElementById(name_id);
+    //   selected_id=i;
+    //   eval(link.addEventListener('click', function () {
+    //     selected_id=i;
+    //     var features = my_geojson.features;
+    //     for(var j=0; j<features.length;j++) {
+    //       if(parseInt(features[j].properties.id) == selected_id){
+    //         map.setFilter('tg_highlighted',["==",'id',selected_id]);
+    //         var bbox = turf.extent(features[j]);
+    //         map.fitBounds(bbox, {padding: 20});
+    //       }
+    //     }
+    //   })
+    // );
+    // }
+
+            // return obj;
+      //   },
+      //   error: function(obj) {
+      //     alert('Error-1111');
+      //   }
+      // });
+
+      // var mj = result;
+      console.log('Stop-2');
             /**
              * Add the map to the page
              */
@@ -428,8 +467,19 @@
           // Use a URL for the value for the `data` property.
           // data: 'https://sergioadmin.github.io/GTB/TG_Don-2.geojson'
           // my_geojson.responseJSON
-          data: my_geojson.responseJSON
+          data: my_geojson
           // data: 'https://sergioadmin.github.io/GTB/TG_Don-2-polygons.geojson'
+        });
+
+        map.addLayer({
+          'id': 'tg_highlighted',
+          'type': 'line',
+          'source': 'don_tg',
+          'paint': {
+            'line-color': '#f46d43',
+            'line-width': 6
+          },
+          'filter': ["==",'id',900]
         });
 
         map.addLayer({
@@ -442,81 +492,29 @@
             }
         });
 
-        // map.addLayer({
-        //   'id': 'tg_highlighted',
-        //   'type': 'line',
-        //   'source': 'don_tg',
-        //    'paint': {
-        //       'line-color': '#484896',
-        //       'line-width': 5
-        //     }
-        // });
 });
-      
-    var rawData = my_geojson.responseJSON;
-    var featuresAll = rawData.features;
-    var link_301 = document.getElementById('link-301');
-    var selected_id=301;
-    link_301.addEventListener('click', function () {
-      
-      // var mapboxSource = map.querySourceFeatures('don_tg');
-      for(var j=0; j<my_geojson.responseJSON.features.length;j++){
-        if(parseInt(my_geojson.responseJSON.features[i].properties.id) == selected_id){
-          map.setFilter('tg_highlighted',["==",'id',selected_id]);
-          var bbox = turf.extent(my_geojson.responseJSON.features[i]);
-          map.fitBounds(bbox, {padding: 20});
-          // alert("yes - "+my_geojson.responseJSON.features[i].properties.id);
-        }
-      }
-    });
-      
-    var link_302 = document.getElementById('link-302');
-    var selected_id=302;
-    link_302.addEventListener('click', function () {
-      var features = my_geojson.responseJSON.features;
-      // var mapboxSource = map.querySourceFeatures('don_tg');
-      for(var j=0; j<my_geojson.responseJSON.features.length;j++){
-        if(parseInt(my_geojson.responseJSON.features[i].properties.id) == selected_id){
-          map.setFilter('tg_highlighted',["==",'id',selected_id]);
-          var bbox = turf.extent(my_geojson.responseJSON.features[i]);
-          map.fitBounds(bbox, {padding: 20});
-          // alert("yes - "+my_geojson.responseJSON.features[i].properties.id);
-        }
-      }
+
+    let geo_len = my_geojson.features.map(feature => feature.properties.id);
+    geo_len.forEach( function(i) {
+      name_id = 'link-'+String(i); 
+      link = document.getElementById(name_id);
+      selected_id=i;
+      link.addEventListener('click', ff12(selected_id) );
     });
 
-      
-      for(i=301;i<313;i++){
-        var name_id = 'link-'+String(i);
-        
-      // const link = document.getElementById("link-301");
-      var link = document.getElementById(name_id);
-      
-      // var selected_id=parseInt((link.id).slice(5));
-      var selected_id=i;
-        
-      link.addEventListener('click', function () {
-        var features = my_geojson.responseJSON.features;
-        // var mapboxSource = map.querySourceFeatures('don_tg');
-        for(var j=0; j<my_geojson.responseJSON.features.length;j++){
-          if(parseInt(my_geojson.responseJSON.features[i].properties.id) == selected_id){
-            map.setFilter('tg_highlighted',["==",'id',selected_id]);
-            var bbox = turf.extent(my_geojson.responseJSON.features[i]);
-            map.fitBounds(bbox, {padding: 20});
-            // alert("yes - "+my_geojson.responseJSON.features[i].properties.id);
-          }
-        }
-        // var mapboxSource = map.querySourceFeatures('don_tg', {
-        //   filter: ['==','id',selected_id]
-        // });
-        // console.log(mapboxSource);
-
-        // map.flyTo({
-        //   center: [36.73012, 47.85091],
-        //   zoom: 12
-        // });
-      });
+function ff12(selected_id1) {
+  return function e() {
+    // console.log(selected_id);
+    for(var j=0; j<my_geojson.features.length;j++){
+      if(parseInt(my_geojson.features[j].properties.id) == selected_id1){
+        map.setFilter('tg_highlighted',["==",'id',selected_id1]);
+        var bbox = turf.extent(my_geojson.features[j]);
+        map.fitBounds(bbox, {padding: 20});
+        // return;
       }
+    }  
+  }
+}
     </script>
   </body>
 </html>
